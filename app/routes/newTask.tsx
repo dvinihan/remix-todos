@@ -1,6 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useNavigation } from "@remix-run/react";
+import { Form, Link, useNavigation } from "@remix-run/react";
 import { Loading } from "~/components/Loading";
 import type { Counter } from "~/types";
 import { connectToMongo } from "~/utils/mongodb";
@@ -31,6 +31,7 @@ export default () => {
   const navigation = useNavigation();
   return (
     <div>
+      <Link to="/">Home</Link>
       <h1>New Task</h1>
       <Form method="post">
         <label>Section</label>
