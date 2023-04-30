@@ -5,8 +5,8 @@ export type SectionDTO = {
 
 export type TaskDTO = {
   id: number;
-  sectionId: number;
-  name: string;
+  section: string;
+  text: string;
 };
 
 export type Section = SectionDTO & {

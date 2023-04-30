@@ -1,7 +1,7 @@
 import type { V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { List, Section, SectionDTO, TaskDTO } from "~/types";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { List, TaskDTO } from "~/types";
 import { connectToMongo } from "~/utils/mongodb";
 
 export const meta: V2_MetaFunction = () => {
@@ -14,10 +14,10 @@ export const loader = async () => {
 
   return json(
     tasks.reduce((acc, task) => {
-      if (acc[task.name]) {
-        acc[task.name].push(task);
+      if (acc[task.section]) {
+        acc[task.section].push(task);
       } else {
-        acc[task.name] = [task];
+        acc[task.section] = [task];
       }
       return acc;
     }, {} as List)
@@ -38,12 +38,13 @@ export default function Index() {
             {tasks.map((task) => (
               <div key={task.id}>
                 <input type="checkbox" />
-                <span>{task.name}</span>
+                <span>{task.text}</span>
               </div>
             ))}
           </div>
         );
       })}
+      <Link to="/newTask">Add Task</Link>
     </div>
   );
 }
