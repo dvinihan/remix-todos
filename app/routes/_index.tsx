@@ -1,7 +1,7 @@
 import type { V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { List, TaskDTO } from "~/types";
+import type { TaskList, Task } from "~/types";
 import { connectToMongo } from "~/utils/mongodb";
 
 export const meta: V2_MetaFunction = () => {
@@ -10,7 +10,7 @@ export const meta: V2_MetaFunction = () => {
 
 export const loader = async () => {
   const db = await connectToMongo();
-  const tasks = await db.collection<TaskDTO>("tasks").find().toArray();
+  const tasks = await db.collection<Task>("tasks").find().toArray();
 
   return json(
     tasks.reduce((acc, task) => {
@@ -20,7 +20,7 @@ export const loader = async () => {
         acc[task.section] = [task];
       }
       return acc;
-    }, {} as List)
+    }, {} as TaskList)
   );
 };
 
@@ -31,11 +31,10 @@ export default function Index() {
     <div>
       <h1>Todo List</h1>
       {Object.keys(taskList).map((sectionName) => {
-        const tasks = taskList[sectionName];
         return (
           <div key={sectionName}>
             <h2>{sectionName}</h2>
-            {tasks.map((task) => (
+            {taskList[sectionName].map((task) => (
               <div key={task.id}>
                 <input type="checkbox" />
                 <span>{task.text}</span>

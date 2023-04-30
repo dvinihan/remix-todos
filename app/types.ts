@@ -1,18 +1,14 @@
-export type SectionDTO = {
-  id: number;
+export type Counter = {
   name: string;
+  value: number;
 };
 
-export type TaskDTO = {
+export type Task = {
   id: number;
   section: string;
   text: string;
 };
 
-export type Section = SectionDTO & {
-  tasks: TaskDTO[];
-};
-
-export type List = {
-  [key: string]: TaskDTO[];
+export type TaskList = {
+  [key: string]: Task[];
 };
